@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import Link from "next/link";
 import {
   Bar,
   BarChart,
@@ -35,11 +36,23 @@ export default function Home() {
             NextAuth, and Recharts
           </p>
           {session ? (
-            <p className="text-sm text-[#7c3aed]">
-              Signed in as {session.user?.email || session.user?.name}
-            </p>
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-sm text-[#7c3aed]">
+                Signed in as {session.user?.email || session.user?.name}
+              </p>
+              <Button variant="outline" onClick={() => signOut()}>
+                Sign Out
+              </Button>
+            </div>
           ) : (
-            <p className="text-sm text-muted-foreground">Not signed in</p>
+            <div className="flex gap-4 justify-center">
+              <Link href="/auth/signin">
+                <Button variant="default">Sign In</Button>
+              </Link>
+              <Link href="/auth/signup">
+                <Button variant="outline">Sign Up</Button>
+              </Link>
+            </div>
           )}
         </div>
 
