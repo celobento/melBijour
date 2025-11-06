@@ -1,7 +1,8 @@
 "use client";
 
+import { HeaderNav } from "@/components/header-nav";
 import { Button } from "@/components/ui/button";
-import { useSession, signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   Bar,
@@ -26,6 +27,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-[#fce7f3] via-white to-[#a855f7]/5">
+      <HeaderNav />
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-linear-to-r from-[#a855f7] to-[#f9a8d4] bg-clip-text text-transparent">
