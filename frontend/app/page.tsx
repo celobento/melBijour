@@ -25,9 +25,15 @@ const sampleData = [
 export default function Home() {
   const { data: session } = useSession();
 
+  const isAdmin = session?.user?.role === "ADMIN";
+
   return (
     <div className="min-h-screen bg-linear-to-br from-[#fce7f3] via-white to-[#a855f7]/5">
-      <HeaderNav />
+      <HeaderNav
+        user={session?.user}
+        imagem={(session?.user?.imagem as string) || ""}
+        isAdmin={isAdmin}
+      />
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold mb-4 bg-linear-to-r from-[#a855f7] to-[#f9a8d4] bg-clip-text text-transparent">
