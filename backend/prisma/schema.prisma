@@ -7,6 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Customer {
+  id            String   @id @default(cuid())
+  name          String?
+  image         String?
+  phone         String?
+  address       String?
+  addressNumber Int?
+  zipCode       String?
+  complement    String?
+  city          String?
+  state         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User?
+
+  @@map("customers")
+}
+
 enum UserRole {
   USER
   ADMIN
@@ -19,7 +37,11 @@ model User {
   passwordHash String?
   googleId     String?  @unique
   avatarUrl    String?
+  customerId   String   @unique
   role         UserRole @default(USER)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  customer     Customer @relation(fields: [customerId], references: [id])
+
+  @@map("users")
 }

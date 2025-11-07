@@ -44,6 +44,10 @@ export class AuthService {
         email: dto.email,
         passwordHash,
         role: UserRole.USER,
+        customer: {
+          create: {name: dto.name || null,
+          },
+        },
       },
     });
 
@@ -92,6 +96,15 @@ export class AuthService {
           avatarUrl: dto.image ?? user.avatarUrl,
         },
       });
+
+      // ensure user has a related customer
+      if (!user.customerId) {
+        await this.prisma.customer.create({
+          data: {
+            user: { connect: { id: user.id } },
+          },
+        });
+      }
     } else {
       user = await this.prisma.user.create({
         data: {
@@ -100,6 +113,11 @@ export class AuthService {
           googleId: dto.googleId,
           avatarUrl: dto.image,
           role: UserRole.USER,
+          customer: {
+            create: {name: dto.name || null,
+              image: dto.image || null,
+            },
+          },
         },
       });
     }
