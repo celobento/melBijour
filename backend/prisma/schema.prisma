@@ -45,3 +45,18 @@ model User {
 
   @@map("users")
 }
+
+model Settings {
+  id                  String   @id @default(cuid())
+  companyName         String
+  companyId           String?
+  pixKey              String?
+  phone               String?
+  email               String?
+  logo                String?
+  creditCardAvailable Boolean  @default(false)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("settings")
+}

@@ -67,7 +67,7 @@ export class UploadService {
   
       // Upload to S3
       console.log("Starting S3 upload...");
-      const result = await uploadToS3(file, "profile-images", dto.userId??'');
+      const result = await uploadToS3(file, dto.folder??'general', dto.userId??'');
   
       if (!result.success) {
         console.error("S3 upload failed:", result.error);

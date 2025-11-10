@@ -16,6 +16,7 @@ axiosInstance.interceptors.request.use(
     // if (token) {
     //   config.headers.Authorization = `Bearer ${token}`
     // }
+    //config.headers["Content-Type"] = "application/json";
     //console.log("config: " + JSON.stringify(config));
     //console.log("url: " + config?.url);
     //console.log("Mensagem: " + process.env.BACKEND_URL);
