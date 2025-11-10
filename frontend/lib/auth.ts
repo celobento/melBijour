@@ -29,12 +29,24 @@ export const authOptions: NextAuthOptions = {
           })
 
           if (response.data && response.data.user) {
+            // Fetch user with customerId
+            let customerId: string | undefined = undefined
+            try {
+              const userResponse = await axiosInstance.get(
+                `/users/email/${encodeURIComponent(credentials.email)}`
+              )
+              customerId = userResponse.data?.customer?.id || undefined
+            } catch (error) {
+              console.error("Error fetching user by email:", error)
+            }
+
             return {
               id: response.data.user.id,
               email: response.data.user.email,
               name: response.data.user.name,
               image: response.data.user.avatarUrl,
               role: response.data.user.role,
+              customerId,
             }
           }
           return null
@@ -54,6 +66,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id
         token.role = (user as any).role
+        token.customerId = (user as any).customerId || null
       }
       // Handle Google OAuth
       if (account?.provider === "google") {
@@ -69,6 +82,17 @@ export const authOptions: NextAuthOptions = {
             token.id = response.data.user.id
             token.role = response.data.user.role
             token.imagem = response.data.user.avatarUrl
+
+            // Fetch user with customerId
+            try {
+              const userResponse = await axiosInstance.get(
+                `/users/email/${encodeURIComponent(token.email as string)}`
+              )
+              token.customerId = userResponse.data?.customer?.id || undefined
+            } catch (error) {
+              console.error("Error fetching user by email:", error)
+              token.customerId = undefined
+            }
           }
         } catch (error) {
           console.error("Google auth error:", error)
@@ -80,8 +104,9 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string
         session.user.role = token.role as string
+        session.user.customerId = (token.customerId as string | null) || null
         if (token.imagem) {
-          session.user.image = token.imagem as string
+          session.user.avatarUrl = token.imagem as string
         }
       }
       return session

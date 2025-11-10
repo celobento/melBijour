@@ -21,6 +21,7 @@ model Customer {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   user          User?
+  sales         Sales[]
 
   @@map("customers")
 }
@@ -77,6 +78,53 @@ model Product {
   productCategory ProductCategory
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
+  salesProducts   SalesProduct[]
 
   @@map("products")
+}
+
+enum SalesState {
+  CREATED
+  CONCLUDED
+  CANCELLED
+}
+
+model Sales {
+  id            String         @id @default(cuid())
+  customerId    String
+  total         Float
+  state         SalesState     @default(CREATED)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  customer      Customer       @relation(fields: [customerId], references: [id])
+  salesProducts SalesProduct[]
+  salesHistory  SalesHistory[]
+
+  @@map("sales")
+}
+
+model SalesHistory {
+  id        String   @id @default(cuid())
+  salesId   String
+  userId    String
+  detail    String
+  status    String
+  createdAt DateTime @default(now())
+  sales     Sales    @relation(fields: [salesId], references: [id])
+
+  @@map("sales_history")
+}
+
+model SalesProduct {
+  id         String   @id @default(cuid())
+  salesId    String
+  productId  String
+  qtd        Int
+  unitVlr    Float
+  totalValue Float
+  createdAt  DateTime @default(now())
+  sales      Sales    @relation(fields: [salesId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@map("sales_products")
 }

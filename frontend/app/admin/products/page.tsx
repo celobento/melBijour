@@ -1,5 +1,4 @@
 import { HeaderNav } from "@/components/header-nav";
-import { ProductsList } from "@/components/products-list";
 import { ProductsPageContent } from "@/components/products-page-content";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
@@ -32,4 +31,3 @@ export default async function AdminProductsPage() {
     </div>
   );
 }
-

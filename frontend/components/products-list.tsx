@@ -122,8 +122,8 @@ export function ProductsList() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5" />
-              Filtrar Produtos
+              <Search className="h-5 w-5 text-purple-950" />
+              <span className="text-purple-950">Filtrar Produtos</span>
             </CardTitle>
             <CardDescription>
               Digite para buscar por nome, descrição ou categoria
@@ -196,8 +196,8 @@ export function ProductsList() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Search className="h-5 w-5" />
-              Filtrar Produtos
+              <Search className="h-5 w-5 text-purple-950" />
+              <span className="text-purple-950">Filtrar Produtos</span>
             </CardTitle>
             <CardDescription>
               Digite para buscar por nome, descrição ou categoria
@@ -245,8 +245,8 @@ export function ProductsList() {
       <Card className="mb-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Search className="h-5 w-5" />
-            Filtrar Produtos
+            <Search className="h-5 w-5 text-purple-950" />
+            <span className="text-purple-950">Filtrar Produtos</span>
           </CardTitle>
           <CardDescription>
             {searchQuery

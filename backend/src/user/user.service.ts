@@ -1,7 +1,7 @@
 import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
+    BadRequestException,
+    Injectable,
+    NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -28,6 +28,19 @@ export class UserService {
 
     if (!user) {
       throw new NotFoundException(`User with id '${id}' not found`);
+    }
+
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      include: { customer: true },
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with email '${email}' not found`);
     }
 
     return user;

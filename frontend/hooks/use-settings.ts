@@ -49,7 +49,7 @@ export const settingsKeys = {
 // Fetch public settings (pixKey, companyName, etc.)
 async function fetchPublicSettings(): Promise<PublicSettings> {
   const response = await axiosInstance.get("/settings/pix-key");
-  if (response.status !== 200) {
+  
     // Return defaults if unauthorized or error
     return {
       pixKey: "",
@@ -57,13 +57,7 @@ async function fetchPublicSettings(): Promise<PublicSettings> {
       creditCardAvailable: false,
       logo: null,
     };
-  }
-  return {
-    pixKey: response.data.pixKey || "",
-    companyName: response.data.companyName || "MelBijour-Demo",
-    creditCardAvailable: response.data.creditCardAvailable || false,
-    logo: response.data.logo || null,
-  };
+  
 }
 
 // Fetch admin settings (full settings object)

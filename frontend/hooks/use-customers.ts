@@ -137,6 +137,33 @@ export function useCustomers() {
   });
 }
 
+// Fetch single customer
+async function fetchCustomer(id: string): Promise<Customer> {
+  const response = await axiosInstance.get(`/customers/${id}`);
+  if (response.status !== 200) {
+    throw new Error("Failed to fetch customer");
+  }
+  
+  const customer = response.data;
+  return {
+    ...customer,
+    createdAt: customer.createdAt
+      ? new Date(customer.createdAt).toISOString()
+      : new Date().toISOString(),
+    updatedAt: customer.updatedAt
+      ? new Date(customer.updatedAt).toISOString()
+      : new Date().toISOString(),
+  };
+}
+
+export function useCustomer(id: string) {
+  return useQuery({
+    queryKey: customerKeys.detail(id),
+    queryFn: () => fetchCustomer(id),
+    enabled: !!id,
+  });
+}
+
 // Hook to update customer
 export function useUpdateCustomer() {
   const queryClient = useQueryClient();

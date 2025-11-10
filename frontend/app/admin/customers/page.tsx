@@ -1,5 +1,5 @@
-import { HeaderNav } from "@/components/header-nav";
 import { CustomersList } from "@/components/customers-list";
+import { HeaderNav } from "@/components/header-nav";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -40,4 +40,3 @@ export default async function AdminCustomersPage() {
     </div>
   );
 }
-
