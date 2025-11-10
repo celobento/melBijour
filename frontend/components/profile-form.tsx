@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { states } from "@/lib/states";
+import type { Customer } from "@/types/Customer";
 import { useState } from "react";
 import { toast } from "sonner";
 import axiosInstance from "../lib/axios";
