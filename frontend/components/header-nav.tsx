@@ -77,8 +77,8 @@ export function HeaderNav({ user, imagem, isAdmin }: HeaderNavProps) {
               </svg>
             )}
           </div>
-          <span className="text-xl font-bold text-gray-800 dark:text-white">
-            {companyName || "Lava Jato"}
+          <span className="text-xl font-bold text-purple-600">
+            {companyName || "Mel Bijour"}
           </span>
         </Link>
 
