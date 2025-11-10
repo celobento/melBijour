@@ -31,7 +31,7 @@ export default function Home() {
     <div className="min-h-screen bg-linear-to-br from-[#fce7f3] via-white to-[#a855f7]/5">
       <HeaderNav
         user={session?.user}
-        imagem={(session?.user?.imagem as string) || ""}
+        imagem={(session?.user?.avatarUrl as string) || ""}
         isAdmin={isAdmin}
       />
       <div className="container mx-auto px-4 py-16">

@@ -1,12 +1,12 @@
-import axios from "axios"
+import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.BACKEND_URL || "/api",
+  baseURL: process.env.BACKEND_URL || "http://localhost:3002",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
-})
+});
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
@@ -16,12 +16,15 @@ axiosInstance.interceptors.request.use(
     // if (token) {
     //   config.headers.Authorization = `Bearer ${token}`
     // }
-    return config
+    //console.log("config: " + JSON.stringify(config));
+    //console.log("url: " + config?.url);
+    //console.log("Mensagem: " + process.env.BACKEND_URL);
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
 // Response interceptor
 axiosInstance.interceptors.response.use(
@@ -31,9 +34,9 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle unauthorized
     }
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
-export default axiosInstance
+export default axiosInstance;
 

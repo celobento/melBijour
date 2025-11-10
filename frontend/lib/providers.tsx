@@ -24,7 +24,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <SessionProvider>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
-          <Toaster />
+          <Toaster position="top-center" duration={3000} />
         </ThemeProvider>
       </SessionProvider>
     </QueryClientProvider>

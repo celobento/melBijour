@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
+import NextAuth, { getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import GoogleProvider from "next-auth/providers/google"
 import axiosInstance from "./axios"
 
 export const authOptions: NextAuthOptions = {
@@ -33,6 +34,7 @@ export const authOptions: NextAuthOptions = {
               email: response.data.user.email,
               name: response.data.user.name,
               image: response.data.user.avatarUrl,
+              role: response.data.user.role,
             }
           }
           return null
@@ -51,6 +53,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id
+        token.role = (user as any).role
       }
       // Handle Google OAuth
       if (account?.provider === "google") {
@@ -64,6 +67,8 @@ export const authOptions: NextAuthOptions = {
           })
           if (response.data?.user) {
             token.id = response.data.user.id
+            token.role = response.data.user.role
+            token.imagem = response.data.user.avatarUrl
           }
         } catch (error) {
           console.error("Google auth error:", error)
@@ -74,6 +79,10 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string
+        session.user.role = token.role as string
+        if (token.imagem) {
+          session.user.image = token.imagem as string
+        }
       }
       return session
     },
@@ -82,4 +91,10 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
 }
+
+const handler = NextAuth(authOptions)
+
+export const auth = () => getServerSession(authOptions)
+
+export { handler as GET, handler as POST }
 
