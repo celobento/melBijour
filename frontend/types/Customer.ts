@@ -1,4 +1,4 @@
-export type Customer = {
+export interface Customer {
   id: string;
   name: string | null;
   image: string | null;
@@ -11,4 +11,4 @@ export type Customer = {
   state: string | null;
   createdAt: string;
   updatedAt: string;
-};
+}
