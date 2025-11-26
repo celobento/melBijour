@@ -26,6 +26,11 @@ import {
   type CreateProductInput,
 } from "@/hooks/use-products";
 import axiosInstance from "@/lib/axios";
+import {
+  digitsToNumber,
+  extractDigits,
+  formatDigitsToBrl,
+} from "@/lib/currencyInput";
 import { Buffer } from "buffer";
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
@@ -56,6 +61,7 @@ export function AddProductDialog({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const [valueInput, setValueInput] = useState<string>("");
 
   // Reset form when dialog closes
   useEffect(() => {
@@ -68,6 +74,7 @@ export function AddProductDialog({
         value: 0,
         productCategory: ProductCategory.NECKLACE,
       });
+      setValueInput("");
       setPreview(null);
       setSelectedFile(null);
       setIsImageModalOpen(false);
@@ -480,19 +487,31 @@ export function AddProductDialog({
                 <Label htmlFor="value">Valor (R$) *</Label>
                 <Input
                   id="value"
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  value={formData.value ?? 0}
+                  type="text"
+                  value={valueInput}
                   onChange={(e) => {
-                    const val =
-                      e.target.value === "" ? 0 : parseFloat(e.target.value);
+                    const input = e.target.value;
+                    const digits = extractDigits(input);
+
+                    if (digits === "") {
+                      setValueInput("");
+                      setFormData({
+                        ...formData,
+                        value: 0,
+                      });
+                      return;
+                    }
+
+                    const formatted = formatDigitsToBrl(digits);
+                    const numValue = digitsToNumber(digits);
+
+                    setValueInput(formatted);
                     setFormData({
                       ...formData,
-                      value: isNaN(val) ? 0 : val,
+                      value: numValue,
                     });
                   }}
-                  placeholder="0.00"
+                  placeholder="0,00"
                   required
                 />
               </div>
